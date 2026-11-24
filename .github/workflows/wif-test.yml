@@ -1,0 +1,17 @@
+name: cloudvrp-wif-test
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/632059038784/locations/global/workloadIdentityPools/cloudvrp-pool/providers/cloudvrp-gh-provider'
+          service_account: 'victim-viewer@cloudvrp-victim.iam.gserviceaccount.com'
+      - run: gcloud auth list && gcloud projects describe cloudvrp-victim
